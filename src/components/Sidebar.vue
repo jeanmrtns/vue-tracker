@@ -25,7 +25,7 @@ export default defineComponent({
   },
   computed: {
     themeText() {
-      return this.isDarkMode ? 'Desativar modo escuro' : 'Ativar modo escuro'
+      return this.isDarkMode ? 'Disable dark mode' : 'Enable dark mode'
     }
   },
   methods: {
