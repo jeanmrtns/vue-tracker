@@ -5,15 +5,7 @@
     </div>
 
     <div class="column is-three-quarter content">
-      <Form @saveTask="saveTask" />
-
-      <div class="list">
-        <Box v-if="isTasksListEmpty">
-          <span>You are not so active today ☹️</span>
-        </Box>
-        <TasksList v-else :tasks="tasks" />
-      </div>
-
+      <router-view></router-view>
     </div>
   </main>
 </template>
@@ -21,9 +13,6 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import Sidebar from './components/Sidebar.vue'
-import Box from './components/Box.vue'
-import Form from './components/Form.vue'
-import TasksList from './components/TasksList.vue'
 import { Task } from '@/types/ITask'
 
 export default defineComponent({
@@ -48,10 +37,7 @@ export default defineComponent({
     }
   },
   components: {
-    Sidebar,
-    Form,
-    TasksList,
-    Box
+    Sidebar
   }
 });
 </script>
