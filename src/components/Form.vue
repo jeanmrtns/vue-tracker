@@ -22,9 +22,8 @@
 </template>
 
 <script lang="ts">
-import { key } from '@/store'
+import { useStore } from '@/store'
 import { computed, defineComponent } from 'vue'
-import { useStore } from 'vuex'
 import Counter from './Counter.vue'
 
 export default defineComponent({
@@ -52,7 +51,7 @@ export default defineComponent({
     }
   },
   setup() {
-    const store = useStore(key)
+    const store = useStore()
 
     return {
       projects: computed(() => store.state.projects)

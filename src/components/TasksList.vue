@@ -2,7 +2,8 @@
   <Box>
     <ul>
       <li v-for="task in tasks" :key="task.taskTitle" class="columns">
-        <span class="column is-11">{{ task.taskTitle || 'Task without description' }}</span>
+        <span class="column is-6">{{ task.taskTitle || 'Task without description' }}</span>
+        <span class="column is-5">{{ task.project.name }}</span>
         <span class="column">
           <Cron :timeInSeconds="task.timePassed" />
         </span>
