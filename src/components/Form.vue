@@ -4,23 +4,35 @@
       aria-label="Form to create a new task">
       <input type="text" class="input" placeholder="What task will you start?" v-model="taskTitle" />
 
+      <div class="column is-3">
+        <div class="select">
+          <select v-model="projectId">
+            <option value="">Selecione o projeto</option>
+            <option :value="project.id" v-for="project in projects" :key="project.id">{{ project.name }}</option>
+          </select>
+        </div>
+      </div>
+
       <div class="column">
         <Counter @on-finish-counter="finishTask" />
       </div>
     </form>
+
   </div>
 </template>
 
 <script lang="ts">
-import { Task } from '@/types/ITask'
-import { defineComponent } from 'vue'
+import { key } from '@/store'
+import { computed, defineComponent } from 'vue'
+import { useStore } from 'vuex'
 import Counter from './Counter.vue'
 
 export default defineComponent({
   name: 'form-component',
   data() {
     return {
-      taskTitle: ""
+      taskTitle: "",
+      projectId: ""
     }
   },
   emits: [
@@ -31,12 +43,19 @@ export default defineComponent({
   },
   methods: {
     finishTask(timePassed: number) {
-      const task: Task = {
+      this.$emit('saveTask', {
         taskTitle: this.taskTitle,
-        timePassed
-      }
-      this.$emit('saveTask', task)
+        timePassed,
+        project: this.projects.find(p => p.id === this.projectId)
+      })
       this.taskTitle = ""
+    }
+  },
+  setup() {
+    const store = useStore(key)
+
+    return {
+      projects: computed(() => store.state.projects)
     }
   }
 })

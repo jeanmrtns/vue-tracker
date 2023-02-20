@@ -9,6 +9,12 @@
       </button>
     </header>
 
+    <nav class="panel mt-5 ml-4 p-2 nav">
+      <router-link to="/"><i class="fas fa-tasks"></i> Tasks</router-link>
+      <router-link to="/projects">
+        <i class="fas fa-project-diagram"></i>
+        Projects</router-link>
+    </nav>
   </aside>
 </template>
 
@@ -38,16 +44,33 @@ export default defineComponent({
 </script>
 
 <style scoped>
-header {
+aside {
+  height: 100vh;
   background: #0d3b66;
+}
+
+header {
   display: flex;
   flex-direction: column;
   width: 100%;
-  height: 100vh;
   padding: 1rem;
   align-items: center;
 }
 
+.nav {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.nav a {
+  color: #FFF;
+  transition: filter 0.1s;
+}
+
+.nav a:hover {
+  filter: brightness(0.8);
+}
 
 button {
   width: fit-content;
@@ -56,8 +79,6 @@ button {
 @media only screen and (max-width: 768px) {
   header {
     padding: 2.5rem;
-    height: auto;
   }
-
 }
 </style>
