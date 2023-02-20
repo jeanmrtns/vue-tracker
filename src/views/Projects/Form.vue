@@ -12,51 +12,55 @@
         <button class="button">Save</button>
       </div>
     </form>
-
-    <table class="table is-fullwidth">
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Name</th>
-        </tr>
-      </thead>
-
-      <tbody>
-        <tr v-for="project in projects" :key="project.id">
-          <td>{{ project.id }}</td>
-          <td>{{ project.name }}</td>
-        </tr>
-      </tbody>
-    </table>
   </section>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent } from 'vue';
+import { defineComponent } from 'vue';
 import { useStore } from '@/store'
 
 export default defineComponent({
-  name: 'projects-page',
+  name: 'form-page',
+  props: {
+    id: {
+      type: String
+    }
+  },
   data() {
     return {
-      projectName: '',
+      projectName: ''
     }
   },
   methods: {
     save() {
-      this.store.commit('CREATE_PROJECT', this.projectName)
+
+      if (this.id) {
+        this.store.commit('EDIT_PROJECT', {
+          id: this.id,
+          name: this.projectName
+        })
+      } else {
+        this.store.commit('CREATE_PROJECT', this.projectName)
+      }
+
       this.clearFields()
+      this.$router.push('/projects')
     },
     clearFields() {
       this.projectName = ''
+    }
+  },
+  mounted() {
+    if (this.id) {
+      const project = this.store.state.projects.find(p => p.id === String(this.id))
+      this.projectName = project?.name || ''
     }
   },
   setup() {
     const store = useStore()
 
     return {
-      store,
-      projects: computed(() => store.state.projects)
+      store
     }
   }
 })
