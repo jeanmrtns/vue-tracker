@@ -1,18 +1,14 @@
 <template>
-  <section class="projects">
-    <h1>Projects</h1>
+  <form @submit.prevent="save">
+    <div class="field">
+      <label for="projectName" class="label">Project Name</label>
+      <input type="text" class="input" id="projectName" v-model="projectName" />
+    </div>
 
-    <form @submit.prevent="save">
-      <div class="field">
-        <label for="projectName" class="label">Project Name</label>
-        <input type="text" class="input" id="projectName" v-model="projectName" />
-      </div>
-
-      <div class="field">
-        <button class="button">Save</button>
-      </div>
-    </form>
-  </section>
+    <div class="field">
+      <button class="button">Save</button>
+    </div>
+  </form>
 </template>
 
 <script lang="ts">
