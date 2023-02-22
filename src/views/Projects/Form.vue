@@ -14,8 +14,9 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { useStore } from '@/store'
-import { EDIT_PROJECT, NOTIFICATE } from '@/store/mutations-types';
+import { EDIT_PROJECT } from '@/store/mutations-types';
 import { NotificationType } from '@/types/INotification';
+import { useNotification } from '@/hooks/useNotification';
 
 export default defineComponent({
   name: 'form-page',
@@ -33,11 +34,7 @@ export default defineComponent({
     save() {
 
       if (!this.projectName) {
-        this.store.commit(NOTIFICATE, {
-          title: 'Save project failed',
-          content: "You can't save a project without a title",
-          type: NotificationType.FAIL
-        })
+        this.notificate(NotificationType.FAIL, 'Save project failed', "You can't save a project without a title",)
         return
       }
 
@@ -46,18 +43,10 @@ export default defineComponent({
           id: this.id,
           name: this.projectName
         })
-        this.store.commit(NOTIFICATE, {
-          title: 'Project edited',
-          content: 'Your project was edited',
-          type: NotificationType.ATTENTION
-        })
+        this.notificate(NotificationType.ATTENTION, 'Project edited', 'Your project was edited',)
       } else {
         this.store.commit('CREATE_PROJECT', this.projectName)
-        this.store.commit(NOTIFICATE, {
-          title: 'A new project was created',
-          content: 'Yeeeay. Your project is ready',
-          type: NotificationType.SUCCESS
-        })
+        this.notificate(NotificationType.SUCCESS, 'A new project was created', 'Yeeeay. Your project is ready')
       }
 
       this.clearFields()
@@ -75,9 +64,11 @@ export default defineComponent({
   },
   setup() {
     const store = useStore()
+    const { notificate } = useNotification()
 
     return {
-      store
+      store,
+      notificate
     }
   }
 })

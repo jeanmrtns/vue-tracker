@@ -41,27 +41,26 @@
 <script lang="ts">
 import { computed, defineComponent } from 'vue';
 import { useStore } from '@/store'
-import { DELETE_PROJECT, NOTIFICATE } from '@/store/mutations-types';
+import { DELETE_PROJECT } from '@/store/mutations-types';
 import { NotificationType } from '@/types/INotification';
+import { useNotification } from '@/hooks/useNotification';
 
 export default defineComponent({
   name: 'List-Projects',
   setup() {
     const store = useStore()
+    const { notificate } = useNotification()
 
     return {
       projects: computed(() => store.state.projects),
-      store
+      store,
+      notificate
     }
   },
   methods: {
     deleteProject(id: string) {
       this.store.commit(DELETE_PROJECT, id)
-      this.store.commit(NOTIFICATE, {
-          title: 'Project deleted',
-          content: 'Your project was successfully removed',
-          type: NotificationType.SUCCESS
-        })
+      this.notificate(NotificationType.SUCCESS, 'Project deleted', 'Your project was successfully removed')
     }
   }
 })
